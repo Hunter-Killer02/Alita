@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para ti ♥</title>
+<!-- ============================================================
+     PERSONALIZA AQUÍ ABAJO (busca "EDITA"):
+     1. El nombre de ella  → busca EDITA-NOMBRE
+     2. Tu nombre (firma)  → busca EDITA-FIRMA
+     3. El texto de la carta → busca EDITA-CARTA
+     4. Las razones que rotan → busca EDITA-RAZONES (en el <script>)
+     ============================================================ -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,500&family=Parisienne&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --noche:#131a2b;
+    --noche-2:#1d2740;
+    --papel:#f7f0e2;
+    --papel-sombra:#e6dbc6;
+    --tinta:#3a3040;
+    --lacre:#8e2e3c;
+    --lacre-luz:#b04a58;
+    --dorado:#d9b380;
+    --rosa:#e8a7b4;
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html,body{ height:100%; }
+  body{
+    font-family:'Jost',sans-serif;
+    background:radial-gradient(ellipse at 50% 120%, var(--noche-2) 0%, var(--noche) 65%);
+    color:var(--papel);
+    overflow-x:hidden;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+
+  /* ---------- cielo ---------- */
+  #cielo{ position:fixed; inset:0; z-index:0; pointer-events:none; }
+  .estrella{
+    position:absolute; border-radius:50%;
+    background:#fff;
+    animation:titilar var(--dur,3s) ease-in-out infinite alternate;
+    opacity:.7;
+  }
+  @keyframes titilar{ from{ opacity:.15; } to{ opacity:.85; } }
+
+  /* ---------- pétalos ---------- */
+  .petalo{
+    position:fixed; top:-4vh; z-index:1; pointer-events:none;
+    width:14px; height:11px;
+    background:linear-gradient(135deg, var(--rosa), #d78a9c);
+    border-radius:70% 30% 60% 40% / 60% 40% 60% 40%;
+    opacity:.85;
+    animation:caer linear forwards;
+  }
+  @keyframes caer{
+    0%   { transform:translateY(-5vh) translateX(0) rotate(0deg); }
+    100% { transform:translateY(110vh) translateX(var(--deriva,40px)) rotate(340deg); opacity:.4; }
+  }
+
+  /* ---------- encabezado ---------- */
+  header{
+    z-index:2; text-align:center;
+    padding:9vh 6vw 4vh;
+  }
+  .eyebrow{
+    font-size:.72rem; letter-spacing:.35em; text-transform:uppercase;
+    color:var(--dorado); font-weight:300;
+  }
+  h1{
+    font-family:'Parisienne',cursive;
+    font-size:clamp(2.6rem, 9vw, 4.6rem);
+    font-weight:400; color:var(--papel);
+    margin-top:.4rem;
+    text-shadow:0 0 30px rgba(217,179,128,.25);
+  }
+  header p{
+    font-family:'Cormorant Garamond',serif; font-style:italic;
+    font-size:1.05rem; color:rgba(247,240,226,.75); margin-top:.6rem;
+  }
+
+  /* ---------- sobre ---------- */
+  #escena{ z-index:2; position:relative; padding-bottom:8vh; width:100%;
+           display:flex; flex-direction:column; align-items:center; }
+  #sobre{
+    position:relative; cursor:pointer; border:none; background:none;
+    width:min(340px, 84vw); aspect-ratio:340/220;
+    filter:drop-shadow(0 18px 35px rgba(0,0,0,.45));
+    transition:transform .35s ease;
+    -webkit-tap-highlight-color:transparent;
+  }
+  #sobre:hover{ transform:translateY(-4px) scale(1.02); }
+  #sobre:focus-visible{ outline:3px solid var(--dorado); outline-offset:8px; border-radius:8px; }
+  .cuerpo-sobre{
+    position:absolute; inset:0;
+    background:linear-gradient(160deg, var(--papel) 0%, var(--papel-sombra) 100%);
+    border-radius:8px;
+  }
+  .solapa{
+    position:absolute; top:0; left:0; width:100%; height:58%;
+    background:linear-gradient(180deg, #efe6d2, var(--papel-sombra));
+    clip-path:polygon(0 0, 100% 0, 50% 100%);
+    transform-origin:top center;
+    transition:transform .9s cubic-bezier(.6,-0.2,.3,1.2);
+    border-radius:8px 8px 0 0;
+    z-index:3;
+  }
+  .lacre{
+    position:absolute; left:50%; top:52%;
+    transform:translate(-50%,-50%);
+    width:58px; height:58px; border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, var(--lacre-luz), var(--lacre) 70%);
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.5rem; color:#f3d9dd; z-index:4;
+    box-shadow:inset 0 -4px 8px rgba(0,0,0,.35), 0 4px 10px rgba(0,0,0,.3);
+    transition:opacity .5s ease, transform .5s ease;
+  }
+  .pista{
+    margin-top:1.4rem; font-size:.8rem; letter-spacing:.25em;
+    text-transform:uppercase; color:rgba(247,240,226,.55);
+    animation:latido 2.4s ease-in-out infinite;
+  }
+  @keyframes latido{ 0%,100%{ opacity:.45; } 50%{ opacity:.95; } }
+
+  #sobre.abierto .solapa{ transform:rotateX(180deg); z-index:1; }
+  #sobre.abierto .lacre{ opacity:0; transform:translate(-50%,-50%) scale(.4); }
+  #sobre.abierto{ cursor:default; }
+
+  /* ---------- carta ---------- */
+  #carta{
+    z-index:2;
+    width:min(560px, 90vw);
+    background:linear-gradient(180deg, var(--papel), #f1e8d5);
+    color:var(--tinta);
+    border-radius:10px;
+    padding:clamp(1.6rem, 5vw, 3rem);
+    box-shadow:0 24px 60px rgba(0,0,0,.5);
+    opacity:0; transform:translateY(40px) scale(.96);
+    transition:opacity .9s ease .5s, transform .9s ease .5s;
+    pointer-events:none;
+    margin-top:-2rem;
+  }
+  #carta.visible{ opacity:1; transform:translateY(0) scale(1); pointer-events:auto; }
+  #carta h2{
+    font-family:'Parisienne',cursive; font-weight:400;
+    font-size:clamp(1.9rem, 6vw, 2.6rem); color:var(--lacre);
+    margin-bottom:1.2rem;
+  }
+  #carta p{
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(1.08rem, 3.6vw, 1.25rem);
+    line-height:1.75; margin-bottom:1.1rem;
+  }
+  .firma{
+    font-family:'Parisienne',cursive; font-size:1.7rem;
+    text-align:right; color:var(--lacre); margin-top:1.6rem;
+  }
+  .separador{
+    display:flex; align-items:center; gap:.8rem;
+    margin:1.8rem 0 1.2rem; color:var(--dorado);
+  }
+  .separador::before, .separador::after{
+    content:""; flex:1; height:1px; background:linear-gradient(90deg, transparent, var(--dorado));
+  }
+  .separador::after{ background:linear-gradient(90deg, var(--dorado), transparent); }
+
+  /* ---------- razones rotativas ---------- */
+  .razon-caja{ text-align:center; min-height:3.4em; }
+  .razon-etiqueta{
+    font-family:'Jost',sans-serif; font-size:.68rem;
+    letter-spacing:.3em; text-transform:uppercase; color:#9a8464;
+  }
+  #razon{
+    font-family:'Cormorant Garamond',serif; font-style:italic;
+    font-size:1.15rem; color:var(--tinta);
+    display:block; margin-top:.4rem;
+    transition:opacity .6s ease;
+  }
+
+  footer{
+    z-index:2; padding:0 0 6vh; text-align:center;
+    font-size:.75rem; letter-spacing:.2em; color:rgba(247,240,226,.4);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .estrella, .petalo, .pista{ animation:none !important; }
+    .solapa, #carta, .lacre{ transition-duration:.01s !important; }
+  }
+</style>
+</head>
+<body>
+
+<div id="cielo" aria-hidden="true"></div>
+
+<header>
+  <div class="eyebrow">Una carta para</div>
+  <!-- EDITA-NOMBRE: pon aquí el nombre de tu novia -->
+  <h1>Mi Amor</h1>
+  <p>Toca el sobre… hay algo dentro para ti.</p>
+</header>
+
+<main id="escena">
+  <button id="sobre" aria-label="Abrir la carta">
+    <div class="cuerpo-sobre"></div>
+    <div class="solapa"></div>
+    <div class="lacre">♥</div>
+  </button>
+  <div class="pista" id="pista">toca para abrir</div>
+
+  <article id="carta" aria-live="polite">
+    <h2>Para ti, con todo mi corazón</h2>
+
+    <!-- EDITA-CARTA: cambia estos párrafos por tu propio mensaje -->
+    <p>
+      Quería decirte algo y no encontraba la forma, así que te hice esta
+      pequeña carta. Desde que llegaste a mi vida, los días tienen otro
+      color: hasta lo ordinario se volvió especial contigo.
+    </p>
+    <p>
+      Gracias por tu paciencia, por tu risa, por creer en mí incluso
+      cuando yo dudo. No sé qué hice para merecerte, pero pienso pasarme
+      la vida intentando estar a la altura.
+    </p>
+    <p>
+      Te quiero hoy, te querré mañana, y todos los días que vengan.
+    </p>
+
+    <!-- EDITA-FIRMA: pon tu nombre -->
+    <div class="firma">— Tuyo, siempre</div>
+
+    <div class="separador">✦</div>
+
+    <div class="razon-caja">
+      <span class="razon-etiqueta">Razones por las que te quiero</span>
+      <span id="razon"></span>
+    </div>
+  </article>
+</main>
+
+<footer>hecho con ♥ para ti</footer>
+
+<script>
+  // ---------- cielo estrellado ----------
+  (function(){
+    const cielo = document.getElementById('cielo');
+    const n = Math.min(90, Math.floor(window.innerWidth / 12));
+    for(let i=0;i<n;i++){
+      const e = document.createElement('div');
+      e.className = 'estrella';
+      const s = Math.random()*2 + 1;
+      e.style.width = e.style.height = s + 'px';
+      e.style.left = Math.random()*100 + 'vw';
+      e.style.top  = Math.random()*100 + 'vh';
+      e.style.setProperty('--dur', (2 + Math.random()*4) + 's');
+      e.style.animationDelay = (Math.random()*4) + 's';
+      cielo.appendChild(e);
+    }
+  })();
+
+  // ---------- abrir el sobre ----------
+  const sobre = document.getElementById('sobre');
+  const carta = document.getElementById('carta');
+  const pista = document.getElementById('pista');
+  let abierto = false;
+
+  sobre.addEventListener('click', () => {
+    if (abierto) return;
+    abierto = true;
+    sobre.classList.add('abierto');
+    pista.style.display = 'none';
+    setTimeout(() => {
+      carta.classList.add('visible');
+      carta.scrollIntoView({ behavior:'smooth', block:'start' });
+      lluviaDePetalos();
+      iniciarRazones();
+    }, 600);
+  });
+
+  // ---------- pétalos ----------
+  function lluviaDePetalos(){
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) return;
+    let creados = 0;
+    const intervalo = setInterval(() => {
+      const p = document.createElement('div');
+      p.className = 'petalo';
+      p.style.left = Math.random()*100 + 'vw';
+      p.style.setProperty('--deriva', (Math.random()*120 - 60) + 'px');
+      const dur = 6 + Math.random()*5;
+      p.style.animationDuration = dur + 's';
+      p.style.transform = 'scale(' + (0.6 + Math.random()*0.8) + ')';
+      document.body.appendChild(p);
+      setTimeout(() => p.remove(), dur*1000 + 500);
+      if (++creados > 45) clearInterval(intervalo);
+    }, 450);
+  }
+
+  // ---------- razones rotativas ----------
+  // EDITA-RAZONES: escribe aquí tus propias razones
+  const razones = [
+    "Tu risa arregla cualquier día malo.",
+    "La manera en que me miras cuando crees que no me doy cuenta.",
+    "Porque contigo hasta el silencio se siente bien.",
+    "Tu forma de cuidar a los que quieres.",
+    "Porque me haces querer ser mejor persona.",
+    "Simplemente… porque eres tú."
+  ];
+  function iniciarRazones(){
+    const el = document.getElementById('razon');
+    let i = 0;
+    const mostrar = () => {
+      el.style.opacity = 0;
+      setTimeout(() => {
+        el.textContent = '“' + razones[i] + '”';
+        el.style.opacity = 1;
+        i = (i + 1) % razones.length;
+      }, 600);
+    };
+    mostrar();
+    setInterval(mostrar, 5000);
+  }
+</script>
+</body>
+</html>
