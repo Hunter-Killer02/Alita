@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Un jardín para ti 🌷</title>
+<!-- ============================================================
+     PERSONALIZA (busca "EDITA"):
+     1. Nombre de ella      → EDITA-NOMBRE
+     2. Frases de las flores → EDITA-FRASES (en el <script>)
+     3. Mensaje final        → EDITA-FINAL
+     4. Tu firma             → EDITA-FIRMA
+     ============================================================ -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Karla:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cielo-alto:#fef3e2;
+    --cielo-bajo:#fbd5c8;
+    --sol:#ffd9a0;
+    --tierra:#e8f0dd;
+    --verde:#5c8a5a;
+    --verde-oscuro:#3f6b40;
+    --tinta:#4a4038;
+    --coral:#e37b6a;
+    --lila:#b48ec9;
+    --amarillo:#f2c14e;
+    --rosita:#ef9db1;
+    --azulito:#7fa8d9;
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html,body{ height:100%; }
+  body{
+    font-family:'Karla',sans-serif;
+    color:var(--tinta);
+    background:linear-gradient(180deg, var(--cielo-alto) 0%, var(--cielo-bajo) 55%, var(--tierra) 55.2%, #dcebce 100%);
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+
+  /* ---------- sol ---------- */
+  .sol{
+    position:fixed; top:7vh; right:8vw;
+    width:90px; height:90px; border-radius:50%;
+    background:radial-gradient(circle at 40% 35%, #fff3d6, var(--sol) 70%);
+    box-shadow:0 0 70px 30px rgba(255,217,160,.55);
+    z-index:0; pointer-events:none;
+    animation:respirar 6s ease-in-out infinite;
+  }
+  @keyframes respirar{ 0%,100%{ transform:scale(1);} 50%{ transform:scale(1.06);} }
+
+  /* ---------- nubes ---------- */
+  .nube{
+    position:fixed; z-index:0; pointer-events:none;
+    background:rgba(255,255,255,.75); border-radius:50px;
+    filter:blur(2px);
+    animation:pasear linear infinite;
+  }
+  .nube::before, .nube::after{
+    content:""; position:absolute; background:inherit; border-radius:50%;
+  }
+  .nube::before{ width:55%; height:160%; top:-70%; left:15%; }
+  .nube::after{ width:40%; height:120%; top:-45%; right:12%; }
+  @keyframes pasear{ from{ transform:translateX(-30vw);} to{ transform:translateX(130vw);} }
+
+  /* ---------- encabezado ---------- */
+  header{
+    position:relative; z-index:2;
+    text-align:center; padding:8vh 6vw 2vh;
+  }
+  h1{
+    font-family:'Caveat',cursive; font-weight:700;
+    font-size:clamp(2.6rem, 9vw, 4.2rem);
+    color:var(--verde-oscuro);
+    line-height:1.05;
+  }
+  h1 .nombre{ color:var(--coral); }
+  header p{
+    margin-top:.8rem; font-weight:300;
+    font-size:clamp(1rem, 3.4vw, 1.15rem);
+    max-width:34ch; margin-left:auto; margin-right:auto;
+  }
+  .contador{
+    display:inline-block; margin-top:1.1rem;
+    font-family:'Caveat',cursive; font-size:1.4rem;
+    color:var(--verde-oscuro);
+    background:rgba(255,255,255,.65);
+    padding:.15rem 1.1rem; border-radius:999px;
+    border:1.5px dashed var(--verde);
+  }
+
+  /* ---------- jardín ---------- */
+  #jardin{
+    position:relative; z-index:1;
+    height:52vh; min-height:340px;
+    cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .flor{
+    position:absolute; bottom:0;
+    transform-origin:bottom center;
+    animation:crecer 1.1s cubic-bezier(.34,1.4,.5,1) forwards;
+    pointer-events:none;
+  }
+  @keyframes crecer{
+    from{ transform:translateX(-50%) scale(0); }
+    to  { transform:translateX(-50%) scale(1); }
+  }
+  .flor svg{ display:block; overflow:visible; }
+  .flor .cabeza{
+    transform-origin:center;
+    animation:mecer 4s ease-in-out infinite alternate;
+  }
+  @keyframes mecer{ from{ transform:rotate(-4deg);} to{ transform:rotate(4deg);} }
+
+  .frase{
+    position:absolute; z-index:3;
+    background:#fffdf7; color:var(--tinta);
+    font-family:'Caveat',cursive; font-size:1.25rem;
+    padding:.45rem 1rem; border-radius:14px 14px 14px 3px;
+    box-shadow:0 6px 18px rgba(90,70,50,.18);
+    max-width:230px; text-align:center;
+    transform:translate(-50%,-110%);
+    animation:aparecer .5s ease forwards, esfumar .8s ease 3.4s forwards;
+    pointer-events:none;
+  }
+  @keyframes aparecer{ from{ opacity:0; transform:translate(-50%,-90%);} to{ opacity:1; transform:translate(-50%,-110%);} }
+  @keyframes esfumar{ to{ opacity:0; transform:translate(-50%,-130%);} }
+
+  .pista-jardin{
+    position:absolute; left:50%; top:38%;
+    transform:translateX(-50%);
+    font-family:'Caveat',cursive; font-size:1.5rem;
+    color:var(--verde-oscuro); opacity:.75;
+    animation:flotar 2.6s ease-in-out infinite;
+    pointer-events:none; text-align:center; width:80%;
+  }
+  @keyframes flotar{ 0%,100%{ transform:translate(-50%,0);} 50%{ transform:translate(-50%,-8px);} }
+
+  /* ---------- mensaje final ---------- */
+  #final{
+    position:fixed; inset:0; z-index:10;
+    display:flex; align-items:center; justify-content:center;
+    background:rgba(74,64,56,.35); backdrop-filter:blur(3px);
+    opacity:0; pointer-events:none; transition:opacity .8s ease;
+    padding:5vw;
+  }
+  #final.visible{ opacity:1; pointer-events:auto; }
+  .tarjeta{
+    background:#fffdf7; border-radius:18px;
+    padding:clamp(1.6rem, 6vw, 2.8rem);
+    max-width:480px; width:100%;
+    box-shadow:0 30px 70px rgba(60,45,30,.35);
+    text-align:center;
+    transform:scale(.9); transition:transform .8s cubic-bezier(.34,1.3,.5,1);
+  }
+  #final.visible .tarjeta{ transform:scale(1); }
+  .tarjeta h2{
+    font-family:'Caveat',cursive; font-weight:700;
+    font-size:clamp(1.9rem, 7vw, 2.5rem); color:var(--coral);
+    margin-bottom:1rem;
+  }
+  .tarjeta p{
+    line-height:1.7; font-size:1.02rem; margin-bottom:.9rem;
+  }
+  .tarjeta .firma{
+    font-family:'Caveat',cursive; font-size:1.6rem;
+    color:var(--verde-oscuro); margin-top:1.2rem;
+  }
+  .cerrar{
+    margin-top:1.4rem; border:none; cursor:pointer;
+    font-family:'Karla',sans-serif; font-weight:600; font-size:.95rem;
+    color:#fff; background:var(--verde);
+    padding:.65rem 1.6rem; border-radius:999px;
+    transition:background .25s ease;
+  }
+  .cerrar:hover{ background:var(--verde-oscuro); }
+  .cerrar:focus-visible{ outline:3px solid var(--amarillo); outline-offset:3px; }
+
+  footer{
+    position:relative; z-index:2; text-align:center;
+    padding:1.5rem 0 2.2rem;
+    font-size:.78rem; letter-spacing:.15em; color:#8a9b7c;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .sol,.nube,.pista-jardin,.flor .cabeza{ animation:none !important; }
+    .flor{ animation-duration:.01s !important; }
+    #final,.tarjeta{ transition-duration:.01s !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="sol" aria-hidden="true"></div>
+<div class="nube" style="width:120px;height:34px;top:12vh;animation-duration:70s;" aria-hidden="true"></div>
+<div class="nube" style="width:90px;height:26px;top:22vh;animation-duration:95s;animation-delay:-30s;" aria-hidden="true"></div>
+<div class="nube" style="width:150px;height:40px;top:6vh;animation-duration:110s;animation-delay:-60s;" aria-hidden="true"></div>
+
+<header>
+  <!-- EDITA-NOMBRE: pon su nombre dentro del span -->
+  <h1>Un jardín para<br><span class="nombre">La niña mas linda del mundo</span></h1>
+  <p>Cada flor de este jardín es tuya. Toca la tierra para plantarlas y descubre lo que florece.</p>
+  <div class="contador"><span id="num">0</span> / 7 flores 🌱</div>
+</header>
+
+<div id="jardin" role="button" aria-label="Toca para plantar una flor" tabindex="0">
+  <div class="pista-jardin" id="pistaJardin">toca aquí para plantar tu primera flor ↓</div>
+</div>
+
+<div id="final" role="dialog" aria-modal="true" aria-labelledby="tituloFinal">
+  <div class="tarjeta">
+    <h2 id="tituloFinal">Tu jardín está completo 🌷</h2>
+    <!-- EDITA-FINAL: cambia este mensaje por el tuyo -->
+    <p>
+      Así como este jardín, lo nuestro lo hemos plantado flor por flor:
+      con detalles, con paciencia y con muchas amor.
+    </p>
+    <p>
+      Gracias por regar mis días con tu amor. Prometo seguir plantando
+      razones para verte sonreír.
+    </p>
+    <!-- EDITA-FIRMA -->
+    <div class="firma">— Con amor, tu jardinero favorito chauuuu</div>
+    <button class="cerrar" id="btnCerrar">Volver al jardín</button>
+  </div>
+</div>
+
+<footer>plantado con ♥ solo para ti</footer>
+
+<script>
+  // EDITA-FRASES: una frase por flor (mínimo 7)
+  const frases = [
+    "Me encantas 🌸",
+    "Eres mi lugar favorito",
+    "Contigo todo tiene sentido",
+    "Mi felicidad tiene tu nombre 💕",
+    "Gracias por existir",
+    "Lo más bonito de mi vida eres tú",
+    "Te elijo hoy y siempre ❤️"
+  ];
+
+  const colores = ['#e37b6a','#b48ec9','#f2c14e','#ef9db1','#7fa8d9','#e88fc0','#f0a35e'];
+  const META = 7;
+
+  const jardin = document.getElementById('jardin');
+  const num = document.getElementById('num');
+  const pista = document.getElementById('pistaJardin');
+  const final = document.getElementById('final');
+  let plantadas = 0;
+
+  function crearFlor(x){
+    const color = colores[plantadas % colores.length];
+    const alto = 90 + Math.random()*110;
+    const flor = document.createElement('div');
+    flor.className = 'flor';
+    flor.style.left = x + 'px';
+    flor.style.transform = 'translateX(-50%) scale(0)';
+
+    const petalos = [];
+    for (let i=0;i<6;i++){
+      const ang = i*60;
+      petalos.push('<ellipse cx="0" cy="-14" rx="8" ry="15" fill="'+color+'" transform="rotate('+ang+')" opacity="0.92"/>');
+    }
+    flor.innerHTML =
+      '<svg width="70" height="'+(alto+40)+'" viewBox="'+(-35)+' '+(-(alto+40)+10)+' 70 '+(alto+40)+'">' +
+        '<path d="M0,10 C '+(Math.random()>0.5?8:-8)+',-'+(alto*0.4)+' '+(Math.random()>0.5?-6:6)+',-'+(alto*0.7)+' 0,-'+alto+'" stroke="#5c8a5a" stroke-width="4" fill="none" stroke-linecap="round"/>' +
+        '<ellipse cx="'+(Math.random()>0.5?10:-10)+'" cy="-'+(alto*0.45)+'" rx="11" ry="5" fill="#6e9c66" transform="rotate('+(Math.random()>0.5?35:-35)+' '+(Math.random()>0.5?10:-10)+' -'+(alto*0.45)+')"/>' +
+        '<g transform="translate(0,-'+alto+')">' +
+          '<g class="cabeza">' +
+            petalos.join('') +
+            '<circle cx="0" cy="-14" r="7.5" fill="#f7e6b0" stroke="#e0b84e" stroke-width="1.5"/>' +
+          '</g>' +
+        '</g>' +
+      '</svg>';
+    jardin.appendChild(flor);
+  }
+
+  function mostrarFrase(x, y, texto){
+    const f = document.createElement('div');
+    f.className = 'frase';
+    f.textContent = texto;
+    f.style.left = Math.min(Math.max(x, 120), window.innerWidth - 120) + 'px';
+    f.style.top = y + 'px';
+    jardin.appendChild(f);
+    setTimeout(() => f.remove(), 4400);
+  }
+
+  function plantar(clientX, clientY){
+    if (plantadas >= META) return;
+    const rect = jardin.getBoundingClientRect();
+    const x = clientX - rect.left;
+    const y = Math.max(clientY - rect.top, 60);
+
+    crearFlor(x);
+    mostrarFrase(x, y, frases[plantadas % frases.length]);
+    plantadas++;
+    num.textContent = plantadas;
+    if (pista) pista.style.display = 'none';
+
+    if (plantadas === META){
+      setTimeout(() => final.classList.add('visible'), 1300);
+    }
+  }
+
+  jardin.addEventListener('click', e => plantar(e.clientX, e.clientY));
+  jardin.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' '){
+      e.preventDefault();
+      const rect = jardin.getBoundingClientRect();
+      plantar(rect.left + rect.width * (0.15 + Math.random()*0.7), rect.top + rect.height*0.5);
+    }
+  });
+  document.getElementById('btnCerrar').addEventListener('click', () => {
+    final.classList.remove('visible');
+  });
+</script>
+</body>
+</html>
