@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi obra favorita 🎨</title>
+<!-- ============================================================
+     CÓMO USARLO:
+     1. Sube tu foto al MISMO lugar que este archivo, con el
+        nombre exacto:  foto.jpg   (minúsculas)
+        (si es .png, cambia "foto.jpg" en EDITA-FOTO abajo)
+     2. Personaliza buscando "EDITA":
+        - EDITA-NOMBRE  → su nombre
+        - EDITA-MENSAJE → el texto que se escribe al final
+        - EDITA-FIRMA   → tu firma
+     ============================================================ -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Pinyon+Script&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --galeria:#211d1a;
+    --galeria-luz:#2e2924;
+    --marco:#c9a45c;
+    --marco-oscuro:#8a6b33;
+    --crema:#f2e9d8;
+    --tenue:rgba(242,233,216,.6);
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  body{
+    font-family:'Jost',sans-serif;
+    background:radial-gradient(ellipse at 50% 0%, var(--galeria-luz), var(--galeria) 70%);
+    color:var(--crema);
+    min-height:100vh;
+    display:flex; flex-direction:column; align-items:center;
+    overflow-x:hidden;
+  }
+
+  header{
+    text-align:center; padding:7vh 6vw 3vh;
+  }
+  .eyebrow{
+    font-size:.7rem; letter-spacing:.4em; text-transform:uppercase;
+    color:var(--marco); font-weight:300;
+  }
+  h1{
+    font-family:'Pinyon Script',cursive; font-weight:400;
+    font-size:clamp(2.4rem, 8vw, 3.8rem);
+    margin-top:.5rem;
+  }
+  header p{
+    font-family:'Cormorant Garamond',serif; font-style:italic;
+    color:var(--tenue); margin-top:.5rem; font-size:1.05rem;
+  }
+
+  /* ---------- marco y lienzo ---------- */
+  .sala{ position:relative; padding-bottom:2vh; }
+  .luz{
+    position:absolute; left:50%; top:-12vh;
+    width:130%; height:130%;
+    transform:translateX(-50%);
+    background:radial-gradient(ellipse at 50% 0%, rgba(255,235,190,.14), transparent 60%);
+    pointer-events:none;
+  }
+  .marco{
+    position:relative;
+    padding:clamp(12px, 3vw, 22px);
+    background:
+      linear-gradient(135deg, var(--marco) 0%, var(--marco-oscuro) 45%, var(--marco) 55%, var(--marco-oscuuro, var(--marco-oscuro)) 100%);
+    border-radius:6px;
+    box-shadow:
+      0 30px 70px rgba(0,0,0,.6),
+      inset 0 0 0 2px rgba(255,240,200,.35),
+      inset 0 0 18px rgba(0,0,0,.45);
+  }
+  .marco::after{
+    content:""; position:absolute; inset:clamp(8px,2vw,15px);
+    border:1px solid rgba(60,40,10,.55);
+    pointer-events:none;
+  }
+  canvas{
+    display:block;
+    background:#efe7d6;
+    max-width:min(82vw, 460px);
+    height:auto;
+    box-shadow:inset 0 0 25px rgba(80,60,30,.25);
+  }
+
+  .placa{
+    margin:1.6rem auto 0; text-align:center;
+    background:linear-gradient(180deg, #d8b569, #a1793c);
+    color:#2a1f0e; border-radius:4px;
+    padding:.5rem 1.4rem; width:max-content; max-width:85vw;
+    font-size:.8rem; letter-spacing:.12em;
+    box-shadow:0 4px 12px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.4);
+  }
+  .placa strong{ display:block; font-size:.92rem; letter-spacing:.18em; text-transform:uppercase; }
+
+  .progreso{
+    margin-top:1.1rem; text-align:center;
+    font-family:'Cormorant Garamond',serif; font-style:italic;
+    color:var(--tenue); font-size:1rem;
+    min-height:1.5em;
+  }
+
+  /* ---------- mensaje final ---------- */
+  #mensaje{
+    max-width:520px; width:88vw;
+    text-align:center;
+    padding:2.5vh 0 3vh;
+    opacity:0; transform:translateY(20px);
+    transition:opacity 1.2s ease, transform 1.2s ease;
+  }
+  #mensaje.visible{ opacity:1; transform:translateY(0); }
+  #mensaje p{
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(1.1rem, 3.8vw, 1.3rem);
+    line-height:1.8; color:var(--crema);
+  }
+  #mensaje .firma{
+    font-family:'Pinyon Script',cursive;
+    font-size:1.9rem; color:var(--marco); margin-top:1.2rem;
+  }
+
+  /* ---------- error foto ---------- */
+  #aviso{
+    display:none; max-width:420px; width:85vw;
+    margin:1rem auto; padding:1.2rem 1.5rem;
+    border:1px dashed var(--marco); border-radius:8px;
+    color:var(--tenue); font-size:.9rem; line-height:1.6; text-align:center;
+  }
+
+  footer{
+    padding:2vh 0 5vh; text-align:center;
+    font-size:.72rem; letter-spacing:.25em; color:rgba(242,233,216,.35);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    #mensaje{ transition-duration:.01s; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Galería · Colección privada</div>
+  <!-- EDITA-NOMBRE -->
+  <h1>Mi obra favorita</h1>
+  <p>Ninguna pintura del mundo se compara contigo… pero déjame intentarlo.</p>
+</header>
+
+<div class="sala">
+  <div class="luz"></div>
+  <div class="marco">
+    <canvas id="lienzo" width="460" height="560"></canvas>
+  </div>
+</div>
+
+<div class="placa">
+  <strong>“Tú”</strong>
+  óleo digital sobre corazón · edición única
+</div>
+
+<div class="progreso" id="progreso">preparando los pinceles…</div>
+
+<div id="aviso">
+  No encontré la foto 😢<br>
+  Sube una imagen llamada <b>foto.jpg</b> en la misma carpeta que esta página.
+</div>
+
+<div id="mensaje">
+  <!-- EDITA-MENSAJE -->
+  <p>
+    Podría pintarte mil veces y ninguna le haría justicia a lo que veo
+    cuando te miro. Eres, sin exagerar, la obra de arte de mi vida.
+  </p>
+  <!-- EDITA-FIRMA -->
+  <div class="firma">— Tu artista de cabecera</div>
+</div>
+
+<footer>pintado con ♥ solo para ti</footer>
+
+<script>
+(function(){
+  // EDITA-FOTO: si tu imagen es .png o tiene otro nombre, cámbialo aquí
+  const RUTA_FOTO = 'foto.jpg';
+
+  const canvas = document.getElementById('lienzo');
+  const ctx = canvas.getContext('2d');
+  const progreso = document.getElementById('progreso');
+  const mensaje = document.getElementById('mensaje');
+  const aviso = document.getElementById('aviso');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const img = new Image();
+  img.src = RUTA_FOTO;
+
+  img.onerror = () => {
+    progreso.textContent = '';
+    aviso.style.display = 'block';
+  };
+
+  img.onload = () => {
+    // Ajustar canvas a la proporción de la foto (máx 460 ancho, 600 alto)
+    let w = img.naturalWidth, h = img.naturalHeight;
+    const escala = Math.min(460 / w, 600 / h);
+    w = Math.round(w * escala);
+    h = Math.round(h * escala);
+    canvas.width = w;
+    canvas.height = h;
+
+    if (reduce){
+      // Sin animación: mostrar directo
+      ctx.drawImage(img, 0, 0, w, h);
+      mensaje.classList.add('visible');
+      progreso.textContent = '';
+      return;
+    }
+
+    // Leer pixeles de una versión reducida para muestrear colores
+    const off = document.createElement('canvas');
+    off.width = w; off.height = h;
+    const octx = off.getContext('2d');
+    octx.drawImage(img, 0, 0, w, h);
+    let datos;
+    try{
+      datos = octx.getImageData(0, 0, w, h).data;
+    }catch(e){
+      // Si el navegador bloquea la lectura, mostrar la foto directa
+      ctx.drawImage(img, 0, 0, w, h);
+      mensaje.classList.add('visible');
+      progreso.textContent = '';
+      return;
+    }
+
+    const colorEn = (x, y) => {
+      const i = ((y|0) * w + (x|0)) * 4;
+      return 'rgb(' + datos[i] + ',' + datos[i+1] + ',' + datos[i+2] + ')';
+    };
+
+    // Fases: pinceladas gruesas → medianas → finas → detalle
+    const fases = [
+      { radio: 26, puntos: 350,  texto: 'esbozando tu silueta…' },
+      { radio: 14, puntos: 900,  texto: 'mezclando tus colores…' },
+      { radio: 7,  puntos: 2600, texto: 'afinando los detalles…' },
+      { radio: 3,  puntos: 7000, texto: 'los últimos toques…' }
+    ];
+    let fase = 0, pintados = 0;
+
+    function pintarLote(){
+      const f = fases[fase];
+      const porFrame = Math.max(6, Math.round(f.puntos / 90));
+      for (let i=0; i<porFrame && pintados < f.puntos; i++, pintados++){
+        const x = Math.random() * w;
+        const y = Math.random() * h;
+        ctx.beginPath();
+        ctx.fillStyle = colorEn(x, y);
+        ctx.globalAlpha = 0.75 + Math.random()*0.25;
+        // pincelada ovalada con rotación leve
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate((Math.random()-0.5) * 0.9);
+        ctx.beginPath();
+        ctx.ellipse(0, 0, f.radio, f.radio*0.62, 0, 0, Math.PI*2);
+        ctx.fill();
+        ctx.restore();
+      }
+      ctx.globalAlpha = 1;
+      progreso.textContent = f.texto;
+
+      if (pintados >= f.puntos){
+        fase++; pintados = 0;
+        if (fase >= fases.length){
+          revelarFinal();
+          return;
+        }
+      }
+      requestAnimationFrame(pintarLote);
+    }
+
+    // Fundido final a la foto nítida
+    function revelarFinal(){
+      let alpha = 0;
+      progreso.textContent = 'firmando la obra…';
+      function paso(){
+        alpha += 0.02;
+        ctx.globalAlpha = Math.min(alpha, 1);
+        ctx.drawImage(img, 0, 0, w, h);
+        ctx.globalAlpha = 1;
+        if (alpha < 1){
+          requestAnimationFrame(paso);
+        } else {
+          progreso.textContent = '';
+          mensaje.classList.add('visible');
+        }
+      }
+      requestAnimationFrame(paso);
+    }
+
+    requestAnimationFrame(pintarLote);
+  };
+})();
+</script>
+</body>
+</html>
