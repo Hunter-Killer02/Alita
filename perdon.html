@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perdóname 🥺</title>
+<!-- ============================================================
+     PERSONALIZA (busca "EDITA"):
+     - EDITA-NOMBRE   → su nombre
+     - EDITA-CARTA    → tu disculpa (¡escríbela con tus palabras!)
+     - EDITA-PROMESA  → qué vas a hacer diferente
+     - EDITA-FIRMA    → tu nombre
+     ============================================================ -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --gris-cielo:#5b6472;
+    --gris-suelo:#454c58;
+    --calido-1:#f6e7d3;
+    --calido-2:#f3c5a8;
+    --tinta:#41394a;
+    --rojo:#c65b5b;
+    --rojo-luz:#e08585;
+    --verde:#5c8a5a;
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  body{
+    font-family:'Jost',sans-serif;
+    min-height:100vh;
+    overflow-x:hidden;
+    color:#f2eee8;
+    background:linear-gradient(180deg, var(--gris-cielo), var(--gris-suelo));
+    transition:background 3s ease;
+    display:flex; flex-direction:column; align-items:center;
+  }
+  body.despejado{
+    background:linear-gradient(180deg, var(--calido-1), var(--calido-2));
+    color:var(--tinta);
+  }
+
+  /* ---------- lluvia ---------- */
+  .gota{
+    position:fixed; top:-6vh; width:1.5px; height:16px;
+    background:linear-gradient(180deg, transparent, rgba(210,220,235,.8));
+    z-index:1; pointer-events:none;
+    animation:llover linear infinite;
+  }
+  @keyframes llover{ to{ transform:translateY(115vh); } }
+  body.despejado .gota{ display:none; }
+
+  .nube-triste{
+    position:fixed; top:6vh; z-index:1; pointer-events:none;
+    width:130px; height:38px; border-radius:40px;
+    background:rgba(160,170,185,.5); filter:blur(3px);
+    transition:opacity 2.5s ease;
+  }
+  .nube-triste::before{
+    content:""; position:absolute; width:60%; height:170%;
+    top:-75%; left:18%; background:inherit; border-radius:50%;
+  }
+  body.despejado .nube-triste{ opacity:0; }
+
+  .sol{
+    position:fixed; top:7vh; right:10vw; z-index:1;
+    width:80px; height:80px; border-radius:50%;
+    background:radial-gradient(circle at 40% 35%, #fff3d0, #ffce7a);
+    box-shadow:0 0 60px 25px rgba(255,206,122,.45);
+    opacity:0; transform:scale(.5);
+    transition:opacity 2.5s ease 1s, transform 2.5s ease 1s;
+    pointer-events:none;
+  }
+  body.despejado .sol{ opacity:1; transform:scale(1); }
+
+  /* ---------- escena 1: corazón ---------- */
+  #escena1{
+    z-index:2; text-align:center;
+    padding:10vh 6vw 6vh;
+    max-width:520px;
+    transition:opacity .8s ease, transform .8s ease;
+  }
+  #escena1.oculta{ opacity:0; transform:translateY(-30px); pointer-events:none; position:absolute; }
+  #escena1 h1{
+    font-family:'Cormorant Garamond',serif; font-weight:600;
+    font-size:clamp(1.7rem, 6.5vw, 2.4rem);
+    line-height:1.3;
+  }
+  #escena1 .sub{
+    margin-top:.8rem; font-weight:300; font-size:1rem;
+    opacity:.85; line-height:1.6;
+  }
+  #corazon{
+    margin:5vh auto 2vh; display:block;
+    background:none; border:none; cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+    filter:drop-shadow(0 12px 25px rgba(0,0,0,.35));
+    transition:transform .15s ease;
+  }
+  #corazon:active{ transform:scale(.92); }
+  #corazon:focus-visible{ outline:3px solid #fff; outline-offset:8px; border-radius:50%; }
+  .grieta{ transition:opacity .5s ease; }
+  .instruccion{
+    font-size:.85rem; letter-spacing:.2em; text-transform:uppercase;
+    opacity:.7; animation:latido 2.2s ease-in-out infinite;
+  }
+  @keyframes latido{ 0%,100%{ opacity:.5;} 50%{ opacity:1;} }
+
+  /* ---------- escena 2: carta ---------- */
+  #escena2{
+    z-index:2; width:min(560px, 90vw);
+    margin:6vh 0 4vh;
+    opacity:0; transform:translateY(30px);
+    transition:opacity 1s ease .8s, transform 1s ease .8s;
+    pointer-events:none;
+  }
+  #escena2.visible{ opacity:1; transform:translateY(0); pointer-events:auto; }
+  .carta{
+    background:#fffdf8; color:var(--tinta);
+    border-radius:14px;
+    padding:clamp(1.6rem, 5vw, 2.8rem);
+    box-shadow:0 25px 60px rgba(90,60,40,.3);
+  }
+  .carta h2{
+    font-family:'Cormorant Garamond',serif; font-weight:600;
+    font-size:clamp(1.6rem, 5.5vw, 2.1rem);
+    color:var(--rojo); margin-bottom:1.1rem;
+  }
+  .carta p{
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(1.05rem, 3.6vw, 1.2rem);
+    line-height:1.75; margin-bottom:1rem;
+  }
+  .promesa{
+    border-left:3px solid var(--rojo-luz);
+    padding:.6rem 1rem; margin:1.2rem 0;
+    background:#fdf3ef; border-radius:0 8px 8px 0;
+    font-style:italic;
+  }
+  .firma{
+    font-family:'Cormorant Garamond',serif; font-style:italic;
+    text-align:right; font-size:1.15rem; margin-top:1.4rem;
+    color:var(--rojo);
+  }
+
+  .botones{
+    display:flex; gap:.8rem; flex-wrap:wrap;
+    justify-content:center; margin-top:1.8rem;
+  }
+  .botones button{
+    border:none; cursor:pointer; font-family:'Jost',sans-serif;
+    font-size:.95rem; font-weight:500;
+    padding:.75rem 1.5rem; border-radius:999px;
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .botones button:hover{ transform:translateY(-2px); box-shadow:0 8px 18px rgba(0,0,0,.15); }
+  .btn-si{ background:var(--verde); color:#fff; }
+  .btn-tiempo{ background:#e9e2d8; color:var(--tinta); }
+
+  #respuesta{
+    margin-top:1.4rem; text-align:center;
+    font-family:'Cormorant Garamond',serif; font-style:italic;
+    font-size:1.1rem; line-height:1.7;
+    min-height:2em; color:var(--tinta);
+    opacity:0; transition:opacity .8s ease;
+  }
+  #respuesta.visible{ opacity:1; }
+
+  /* corazones al aceptar */
+  .mini-corazon{
+    position:fixed; z-index:5; pointer-events:none;
+    font-size:1.4rem;
+    animation:subir 3.2s ease-in forwards;
+  }
+  @keyframes subir{
+    from{ transform:translateY(0) scale(.6); opacity:1; }
+    to  { transform:translateY(-90vh) scale(1.3) rotate(20deg); opacity:0; }
+  }
+
+  footer{
+    z-index:2; padding:0 0 4vh; text-align:center;
+    font-size:.72rem; letter-spacing:.22em; opacity:.5;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .gota,.instruccion,.mini-corazon{ animation:none !important; }
+    body,#escena1,#escena2,.sol,.nube-triste{ transition-duration:.01s !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="sol" aria-hidden="true"></div>
+<div class="nube-triste" style="left:12vw;" aria-hidden="true"></div>
+<div class="nube-triste" style="left:60vw; top:14vh; transform:scale(.8);" aria-hidden="true"></div>
+
+<section id="escena1">
+  <!-- EDITA-NOMBRE -->
+  <h1>Sé que te fallé,<br>y me duele haberte lastimado.</h1>
+  <p class="sub">
+    Este corazón se rompió un poquito por mi culpa.
+    ¿Me ayudas a repararlo? Cada toque tuyo lo sana.
+  </p>
+
+  <button id="corazon" aria-label="Toca el corazón para repararlo">
+    <svg width="150" height="140" viewBox="0 0 100 92">
+      <path d="M50 88 C 12 62, 2 34, 16 18 C 28 5, 45 10, 50 24 C 55 10, 72 5, 84 18 C 98 34, 88 62, 50 88 Z"
+            fill="#c65b5b" stroke="#8e3a3a" stroke-width="2"/>
+      <g stroke="#7c2f2f" stroke-width="2.6" fill="none" stroke-linecap="round">
+        <path class="grieta" d="M50 26 L44 38 L54 48"/>
+        <path class="grieta" d="M54 48 L46 60 L52 70"/>
+        <path class="grieta" d="M44 38 L34 44"/>
+        <path class="grieta" d="M54 48 L66 52"/>
+        <path class="grieta" d="M52 70 L47 80"/>
+      </g>
+      <ellipse cx="36" cy="26" rx="8" ry="5" fill="rgba(255,255,255,.35)" transform="rotate(-25 36 26)"/>
+    </svg>
+  </button>
+
+  <div class="instruccion" id="instr">toca el corazón · <span id="faltan">5</span> grietas por sanar</div>
+</section>
+
+<section id="escena2" aria-live="polite">
+  <div class="carta">
+    <h2>Perdóname 🌷</h2>
+
+    <!-- EDITA-CARTA: escribe aquí tu disculpa real, con tus palabras.
+         Sé específico: qué hiciste, y que entiendes cómo la hizo sentir. -->
+    <p>
+      No vengo a justificarme, vengo a reconocerlo: me equivoqué,
+      y entiendo que eso te lastimó. Tu tristeza y tu enojo son válidos,
+      y lo último que quiero en este mundo es ser yo quien los cause.
+    </p>
+    <p>
+      Me importas demasiado como para dejar que mi error hable más
+      fuerte que todo lo que siento por ti.
+    </p>
+
+    <!-- EDITA-PROMESA: qué vas a hacer diferente, concreto -->
+    <div class="promesa">
+      Mi compromiso contigo: escucharte más, pensar antes de actuar,
+      y demostrarte con hechos —no solo con páginas bonitas— que
+      aprendí de esto.
+    </div>
+
+    <!-- EDITA-FIRMA -->
+    <p class="firma">— Con el corazón en la mano, tu persona que te quiere</p>
+
+    <div class="botones">
+      <button class="btn-si" id="btnSi">Acepto tus disculpas 🤍</button>
+      <button class="btn-tiempo" id="btnTiempo">Necesito un poco de tiempo</button>
+    </div>
+    <div id="respuesta"></div>
+  </div>
+</section>
+
+<footer>escrito con el corazón, en serio</footer>
+
+<script>
+  // ---------- lluvia ----------
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduce){
+    for (let i=0;i<60;i++){
+      const g = document.createElement('div');
+      g.className = 'gota';
+      g.style.left = Math.random()*100 + 'vw';
+      g.style.animationDuration = (0.7 + Math.random()*0.8) + 's';
+      g.style.animationDelay = (Math.random()*2) + 's';
+      document.body.appendChild(g);
+    }
+  }
+
+  // ---------- reparar el corazón ----------
+  const corazon = document.getElementById('corazon');
+  const grietas = Array.from(document.querySelectorAll('.grieta'));
+  const faltan = document.getElementById('faltan');
+  const instr = document.getElementById('instr');
+  let reparadas = 0;
+
+  corazon.addEventListener('click', () => {
+    if (reparadas >= grietas.length) return;
+    grietas[reparadas].style.opacity = 0;
+    reparadas++;
+    faltan.textContent = grietas.length - reparadas;
+
+    if (reparadas === grietas.length){
+      instr.textContent = 'gracias por sanarlo 🤍';
+      setTimeout(() => {
+        document.body.classList.add('despejado');
+        document.getElementById('escena1').classList.add('oculta');
+        document.getElementById('escena2').classList.add('visible');
+      }, 900);
+    }
+  });
+
+  // ---------- respuestas ----------
+  const respuesta = document.getElementById('respuesta');
+
+  document.getElementById('btnSi').addEventListener('click', () => {
+    respuesta.textContent = 'Gracias, mi amor. No sabes el peso que me quitas. Prometo cuidarte mejor. 🤍';
+    respuesta.classList.add('visible');
+    if (!reduce){
+      for (let i=0;i<18;i++){
+        setTimeout(() => {
+          const c = document.createElement('div');
+          c.className = 'mini-corazon';
+          c.textContent = ['🤍','💚','🌷','✨'][i % 4];
+          c.style.left = (10 + Math.random()*80) + 'vw';
+          c.style.bottom = '-4vh';
+          document.body.appendChild(c);
+          setTimeout(() => c.remove(), 3300);
+        }, i * 150);
+      }
+    }
+  });
+
+  document.getElementById('btnTiempo').addEventListener('click', () => {
+    respuesta.textContent = 'Lo entiendo, y lo respeto. Tómate el tiempo que necesites: aquí voy a estar, y mientras tanto te lo demostraré con hechos. 🤍';
+    respuesta.classList.add('visible');
+  });
+</script>
+</body>
+</html>
