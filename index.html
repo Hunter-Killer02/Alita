@@ -143,30 +143,7 @@
     color:var(--rojo);
   }
 
-  .botones{
-    display:flex; gap:.8rem; flex-wrap:wrap;
-    justify-content:center; margin-top:1.8rem;
-  }
-  .botones button{
-    border:none; cursor:pointer; font-family:'Jost',sans-serif;
-    font-size:.95rem; font-weight:500;
-    padding:.75rem 1.5rem; border-radius:999px;
-    transition:transform .2s ease, box-shadow .2s ease;
-  }
-  .botones button:hover{ transform:translateY(-2px); box-shadow:0 8px 18px rgba(0,0,0,.15); }
-  .btn-si{ background:var(--verde); color:#fff; }
-  .btn-tiempo{ background:#e9e2d8; color:var(--tinta); }
-
-  #respuesta{
-    margin-top:1.4rem; text-align:center;
-    font-family:'Cormorant Garamond',serif; font-style:italic;
-    font-size:1.1rem; line-height:1.7;
-    min-height:2em; color:var(--tinta);
-    opacity:0; transition:opacity .8s ease;
-  }
-  #respuesta.visible{ opacity:1; }
-
-  /* corazones al aceptar */
+  /* corazones al aparecer la carta */
   .mini-corazon{
     position:fixed; z-index:5; pointer-events:none;
     font-size:1.4rem;
@@ -222,16 +199,16 @@
 
 <section id="escena2" aria-live="polite">
   <div class="carta">
-    <h2>Perdóname amorcito</h2>
+    <h2>Perdóname mi amorcito</h2>
 
     <!-- EDITA-CARTA: escribe aquí tu disculpa real, con tus palabras.
          Sé específico: qué hiciste, y que entiendes cómo la hizo sentir. -->
     <p>
-     No vengo a justificarme, sino a reconocer que me equivoqué. 
-     Entiendo que mis palabras te lastimaron y que dije cosas que no venían al caso, 
-     cosas que estuvieron mal y que te hicieron sentir mal e incluso enojarte. 
-     Sé que fui responsable de eso y lo acepto. Lamento profundamente haberte 
-     causado ese dolor, porque nunca debí expresarme de esa manera.
+      No vengo a justificarme, sino a reconocer que me equivoqué. 
+      Entiendo que mis palabras te lastimaron y que dije cosas que no venían al caso, 
+      cosas que estuvieron mal y que te hicieron sentir mal e incluso enojarte. 
+      Sé que fui responsable de eso y lo acepto. Lamento profundamente haberte 
+      causado ese dolor, porque nunca debí expresarme de esa manera.
     </p>
     <p>
       Me importas demasiado como para dejar que mi error hable más
@@ -246,13 +223,7 @@
     </div>
 
     <!-- EDITA-FIRMA -->
-    <p class="firma">— Con el corazón en la mano, tu novio y fan #1</p>
-
-    <div class="botones">
-      <button class="btn-si" id="btnSi">Acepto tus disculpas 🤍</button>
-      <button class="btn-tiempo" id="btnTiempo">Necesito un poco de tiempo</button>
-    </div>
-    <div id="respuesta"></div>
+    <p class="firma">— Con el corazón en la mano, tu novio que te ama </p>
   </div>
 </section>
 
@@ -291,35 +262,26 @@
         document.body.classList.add('despejado');
         document.getElementById('escena1').classList.add('oculta');
         document.getElementById('escena2').classList.add('visible');
+        setTimeout(soltarCorazones, 1500);
       }, 900);
     }
   });
 
-  // ---------- respuestas ----------
-  const respuesta = document.getElementById('respuesta');
-
-  document.getElementById('btnSi').addEventListener('click', () => {
-    respuesta.textContent = 'Gracias, mi amor. No sabes el peso que me quitas. Prometo cuidarte mejor. 🤍';
-    respuesta.classList.add('visible');
-    if (!reduce){
-      for (let i=0;i<18;i++){
-        setTimeout(() => {
-          const c = document.createElement('div');
-          c.className = 'mini-corazon';
-          c.textContent = ['🤍','💚','🌷','✨'][i % 4];
-          c.style.left = (10 + Math.random()*80) + 'vw';
-          c.style.bottom = '-4vh';
-          document.body.appendChild(c);
-          setTimeout(() => c.remove(), 3300);
-        }, i * 150);
-      }
+  // ---------- corazoncitos suaves al aparecer la carta ----------
+  function soltarCorazones(){
+    if (reduce) return;
+    for (let i=0;i<14;i++){
+      setTimeout(() => {
+        const c = document.createElement('div');
+        c.className = 'mini-corazon';
+        c.textContent = ['🤍','💚','🌷','✨'][i % 4];
+        c.style.left = (10 + Math.random()*80) + 'vw';
+        c.style.bottom = '-4vh';
+        document.body.appendChild(c);
+        setTimeout(() => c.remove(), 3300);
+      }, i * 300);
     }
-  });
-
-  document.getElementById('btnTiempo').addEventListener('click', () => {
-    respuesta.textContent = 'Lo entiendo, y lo respeto. Tómate el tiempo que necesites: aquí voy a estar, y mientras tanto te lo demostraré con hechos. 🤍';
-    respuesta.classList.add('visible');
-  });
+  }
 </script>
 </body>
 </html>
