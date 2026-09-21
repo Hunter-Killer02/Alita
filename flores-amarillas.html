@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flores amarillas para ti 💛</title>
+<!-- ============================================================
+     PERSONALIZA (busca "EDITA"):
+     - EDITA-NOMBRE   → su nombre
+     - EDITA-MENSAJE  → tu dedicatoria
+     - EDITA-FIRMA    → tu nombre
+     ============================================================ -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,500&family=Dancing+Script:wght@500;700&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --fondo:#fffdf6;
+    --crema:#fbf4e2;
+    --amarillo:#f7c948;
+    --amarillo-hondo:#e3a51e;
+    --amarillo-suave:#fde9ad;
+    --verde:#6a9955;
+    --verde-hondo:#4d7440;
+    --kraft:#c89b6d;
+    --kraft-hondo:#a97c4e;
+    --tinta:#4d4336;
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  body{
+    font-family:'Jost',sans-serif;
+    background:
+      radial-gradient(circle at 15% 20%, rgba(247,201,72,.12), transparent 40%),
+      radial-gradient(circle at 85% 70%, rgba(247,201,72,.10), transparent 45%),
+      var(--fondo);
+    color:var(--tinta);
+    min-height:100vh;
+    display:flex; flex-direction:column; align-items:center;
+    overflow-x:hidden;
+  }
+
+  /* ---------- destellos ---------- */
+  .destello{
+    position:fixed; z-index:0; pointer-events:none;
+    color:var(--amarillo); font-size:1rem;
+    animation:brillar var(--dur,4s) ease-in-out infinite;
+    opacity:0;
+  }
+  @keyframes brillar{
+    0%,100%{ opacity:0; transform:scale(.6) rotate(0deg); }
+    50%{ opacity:.85; transform:scale(1.1) rotate(25deg); }
+  }
+
+  header{
+    z-index:2; text-align:center; padding:8vh 6vw 1vh; max-width:560px;
+  }
+  .fecha{
+    font-size:.72rem; letter-spacing:.4em; text-transform:uppercase;
+    color:var(--amarillo-hondo); font-weight:400;
+  }
+  h1{
+    font-family:'Dancing Script',cursive; font-weight:700;
+    font-size:clamp(2.5rem, 9vw, 4rem);
+    color:var(--tinta); margin-top:.5rem; line-height:1.1;
+  }
+  h1 span{ color:var(--amarillo-hondo); }
+  header p{
+    font-family:'Cormorant Garamond',serif; font-style:italic;
+    font-size:clamp(1.02rem, 3.6vw, 1.2rem);
+    color:#7a6d59; margin-top:.9rem; line-height:1.6;
+  }
+
+  /* ---------- ramo ---------- */
+  .escena{
+    z-index:2; position:relative;
+    margin-top:2vh;
+    filter:drop-shadow(0 22px 30px rgba(150,110,40,.22));
+  }
+  .tallo, .flor-g, .hojita, .nube-relleno{
+    opacity:0;
+    animation:aparecer .9s ease forwards;
+    transform-origin:bottom center;
+  }
+  @keyframes aparecer{
+    from{ opacity:0; transform:translateY(18px) scale(.6); }
+    to  { opacity:1; transform:translateY(0) scale(1); }
+  }
+  .mecer{
+    animation:mecerse 4.5s ease-in-out infinite alternate;
+    transform-origin:50% 100%;
+  }
+  @keyframes mecerse{ from{ transform:rotate(-2.2deg);} to{ transform:rotate(2.2deg);} }
+
+  /* ---------- mensaje ---------- */
+  #mensaje{
+    z-index:2; max-width:520px; width:88vw;
+    text-align:center; padding:4vh 0 2vh;
+    opacity:0; transform:translateY(24px);
+    transition:opacity 1.2s ease, transform 1.2s ease;
+  }
+  #mensaje.visible{ opacity:1; transform:translateY(0); }
+  #mensaje .tradicion{
+    font-size:.95rem; font-weight:300; line-height:1.7;
+    color:#8a7c65;
+    border-top:1px solid var(--amarillo-suave);
+    border-bottom:1px solid var(--amarillo-suave);
+    padding:1rem 0; margin-bottom:1.6rem;
+  }
+  #mensaje .dedicatoria{
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(1.12rem, 3.9vw, 1.32rem);
+    line-height:1.8;
+  }
+  .firma{
+    font-family:'Dancing Script',cursive;
+    font-size:1.8rem; color:var(--amarillo-hondo);
+    margin-top:1.4rem;
+  }
+
+  footer{
+    z-index:2; padding:3vh 0 5vh; text-align:center;
+    font-size:.72rem; letter-spacing:.25em; color:#b9a988;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .destello,.mecer{ animation:none !important; opacity:.5; }
+    .tallo,.flor-g,.hojita,.nube-relleno{ animation-duration:.01s !important; animation-delay:0s !important; }
+    #mensaje{ transition-duration:.01s; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="fecha">21 · Septiembre</div>
+  <!-- EDITA-NOMBRE -->
+  <h1>Flores amarillas<br>para <span>ti</span></h1>
+  <p>No podía dejar pasar este día sin darte las tuyas.</p>
+</header>
+
+<div class="escena" aria-label="Ramo de lirios amarillos">
+  <svg width="320" height="380" viewBox="0 0 320 380">
+    <defs>
+      <linearGradient id="petalo-lirio" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#ffe9a3"/>
+        <stop offset="100%" stop-color="#f2b93c"/>
+      </linearGradient>
+      <linearGradient id="kraft" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#d3a97c"/>
+        <stop offset="100%" stop-color="#b3855a"/>
+      </linearGradient>
+
+      <!-- lirio reutilizable: estrella de 6 pétalos, motitas y estambres -->
+      <g id="lirio">
+        <g fill="url(#petalo-lirio)" stroke="#d99a26" stroke-width=".8">
+          <path d="M0 0 C -9 -10, -10 -27, 0 -37 C 10 -27, 9 -10, 0 0 Z"/>
+          <path d="M0 0 C -9 -10, -10 -27, 0 -37 C 10 -27, 9 -10, 0 0 Z" transform="rotate(60)"/>
+          <path d="M0 0 C -9 -10, -10 -27, 0 -37 C 10 -27, 9 -10, 0 0 Z" transform="rotate(120)"/>
+          <path d="M0 0 C -9 -10, -10 -27, 0 -37 C 10 -27, 9 -10, 0 0 Z" transform="rotate(180)"/>
+          <path d="M0 0 C -9 -10, -10 -27, 0 -37 C 10 -27, 9 -10, 0 0 Z" transform="rotate(240)"/>
+          <path d="M0 0 C -9 -10, -10 -27, 0 -37 C 10 -27, 9 -10, 0 0 Z" transform="rotate(300)"/>
+        </g>
+        <g fill="#c77b1e">
+          <circle cx="0" cy="-15" r="1.1"/><circle cx="-5" cy="-10" r="1"/><circle cx="5" cy="-10" r="1"/>
+          <circle cx="-10" cy="5" r="1"/><circle cx="10" cy="5" r="1"/><circle cx="0" cy="14" r="1"/>
+          <circle cx="-13" cy="-6" r="1"/><circle cx="13" cy="-6" r="1"/>
+        </g>
+        <g stroke="#b3641a" stroke-width="1.5" stroke-linecap="round">
+          <path d="M0 0 L -7 -8"/><path d="M0 0 L 7 -8"/><path d="M0 0 L 0 -10"/>
+        </g>
+        <circle cx="-7" cy="-9" r="1.8" fill="#8a4a12"/>
+        <circle cx="7" cy="-9" r="1.8" fill="#8a4a12"/>
+        <circle cx="0" cy="-11" r="1.8" fill="#8a4a12"/>
+        <circle cx="0" cy="0" r="2.8" fill="#f7e6b0" stroke="#d99a26" stroke-width=".8"/>
+      </g>
+    </defs>
+
+    <g class="mecer">
+      <!-- tallos -->
+      <g stroke="#6a9955" stroke-width="5" fill="none" stroke-linecap="round">
+        <path class="tallo" style="animation-delay:.2s"  d="M160 300 C 158 240, 160 200, 160 148"/>
+        <path class="tallo" style="animation-delay:.5s"  d="M160 300 C 130 250, 112 210, 106 170"/>
+        <path class="tallo" style="animation-delay:.8s"  d="M160 300 C 190 250, 208 210, 214 170"/>
+        <path class="tallo" style="animation-delay:1.1s" d="M160 300 C 115 260, 80 235, 64 207"/>
+        <path class="tallo" style="animation-delay:1.4s" d="M160 300 C 205 260, 240 235, 256 207"/>
+        <path class="tallo" style="animation-delay:1.7s" d="M160 300 C 145 245, 128 200, 118 122"/>
+        <path class="tallo" style="animation-delay:2.0s" d="M160 300 C 175 245, 192 200, 202 122"/>
+      </g>
+
+      <!-- hojas -->
+      <g fill="#4d7440">
+        <path class="hojita" style="animation-delay:1.6s" d="M132 268 C 100 258, 88 238, 92 224 C 112 232, 128 248, 132 268 Z"/>
+        <path class="hojita" style="animation-delay:1.75s" d="M188 268 C 220 258, 232 238, 228 224 C 208 232, 192 248, 188 268 Z"/>
+      </g>
+
+      <!-- nube de flores pequeñas (relleno) -->
+      <g class="nube-relleno" style="animation-delay:1.9s" fill="#fff6db">
+        <circle cx="85" cy="200" r="4"/><circle cx="97" cy="188" r="3"/>
+        <circle cx="235" cy="200" r="4"/><circle cx="223" cy="188" r="3"/>
+        <circle cx="132" cy="160" r="3.5"/><circle cx="188" cy="160" r="3.5"/>
+        <circle cx="160" cy="190" r="3"/><circle cx="112" cy="215" r="3"/>
+        <circle cx="208" cy="215" r="3"/>
+      </g>
+
+      <!-- lirios (grupo externo posiciona, interno anima) -->
+      <g transform="translate(160,148)"><g class="flor-g" style="animation-delay:1.0s">
+        <use href="#lirio" transform="scale(1.15)"/>
+      </g></g>
+
+      <g transform="translate(106,170) rotate(-12)"><g class="flor-g" style="animation-delay:.7s">
+        <use href="#lirio" transform="rotate(30) scale(.95)"/>
+      </g></g>
+
+      <g transform="translate(214,170) rotate(12)"><g class="flor-g" style="animation-delay:1.3s">
+        <use href="#lirio" transform="rotate(30) scale(.95)"/>
+      </g></g>
+
+      <g transform="translate(64,207) rotate(-24)"><g class="flor-g" style="animation-delay:1.6s">
+        <use href="#lirio" transform="rotate(15) scale(.82)"/>
+      </g></g>
+
+      <g transform="translate(256,207) rotate(24)"><g class="flor-g" style="animation-delay:1.9s">
+        <use href="#lirio" transform="rotate(-15) scale(.82)"/>
+      </g></g>
+
+      <g transform="translate(118,122) rotate(-8)"><g class="flor-g" style="animation-delay:2.2s">
+        <use href="#lirio" transform="rotate(30) scale(.88)"/>
+      </g></g>
+
+      <g transform="translate(202,122) rotate(8)"><g class="flor-g" style="animation-delay:2.4s">
+        <use href="#lirio" transform="scale(.88)"/>
+      </g></g>
+    </g>
+
+    <!-- papel kraft (encima de los tallos) -->
+    <g>
+      <path d="M100 268 L 220 268 L 196 362 L 124 362 Z" fill="url(#kraft)"/>
+      <path d="M100 268 L 160 296 L 220 268 L 208 316 L 160 340 L 112 316 Z" fill="#c89b6d" opacity=".85"/>
+      <path d="M100 268 L 124 362 L 196 362 L 220 268 L 205 330 L 160 352 L 115 330 Z" fill="rgba(90,60,25,.15)"/>
+      <!-- listón -->
+      <path d="M118 306 L 202 306 L 199 318 L 121 318 Z" fill="#f7c948"/>
+      <circle cx="160" cy="312" r="7" fill="#e3a51e"/>
+      <path d="M160 312 L 146 328 M160 312 L 174 328" stroke="#e3a51e" stroke-width="5" stroke-linecap="round"/>
+    </g>
+  </svg>
+</div>
+
+<div id="mensaje">
+  <div class="tradicion">
+    Dicen que si alguien te regala flores amarillas hoy,
+    es su forma de decirte que eres su persona especial
+    y que quiere verte florecer a su lado. 💛
+  </div>
+
+  <!-- EDITA-MENSAJE -->
+  <p class="dedicatoria">
+    No pude ponerte un ramo en las manos ahora mismo, así que sembré
+    este aquí, donde no se marchita. Pero que no te quepa duda:
+    eres mi persona especial, hoy 21 de septiembre y todos los demás días.
+  </p>
+
+  <!-- EDITA-FIRMA -->
+  <div class="firma">— Con amor, quien te las regala</div>
+</div>
+
+<footer>florecen solo para ti 💛</footer>
+
+<script>
+  // destellos dispersos
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduce){
+    for (let i=0;i<16;i++){
+      const d = document.createElement('div');
+      d.className = 'destello';
+      d.textContent = i % 3 === 0 ? '✦' : '✧';
+      d.style.left = Math.random()*96 + 'vw';
+      d.style.top  = Math.random()*90 + 'vh';
+      d.style.fontSize = (0.7 + Math.random()*0.9) + 'rem';
+      d.style.setProperty('--dur', (3 + Math.random()*4) + 's');
+      d.style.animationDelay = (Math.random()*4) + 's';
+      document.body.appendChild(d);
+    }
+  }
+
+  // mostrar mensaje cuando el ramo terminó de florecer
+  setTimeout(() => {
+    document.getElementById('mensaje').classList.add('visible');
+  }, reduce ? 200 : 3400);
+</script>
+</body>
+</html>
