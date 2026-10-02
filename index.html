@@ -434,7 +434,10 @@
 
   // deslizar con el dedo
   let x0 = null;
-  document.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, {passive:true});
+  document.addEventListener('touchstart', e => {
+    if (e.target.closest('.polaroids')) { x0 = null; return; }
+    x0 = e.touches[0].clientX;
+  }, {passive:true});
   document.addEventListener('touchend', e => {
     if (x0 === null) return;
     const dx = e.changedTouches[0].clientX - x0;
