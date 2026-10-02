@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Para ti 💌</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💖</text></svg>">
 <!-- ============================================================
      PERSONALIZA (busca "EDITA"):
      1. EDITA-FECHA    → fecha en que empezaron (para el contador)
@@ -151,7 +152,10 @@
   .polaroids::-webkit-scrollbar{ display:none; }
   .polaroid{
     flex:0 0 auto; scroll-snap-align:center;
-    background:#fdfbf7; border-radius:6px;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.16);
+    backdrop-filter:blur(8px);
+    border-radius:12px;
     padding:10px 10px 14px;
     box-shadow:0 16px 40px rgba(0,0,0,.45);
     transform:rotate(var(--rot,-2deg));
@@ -164,7 +168,8 @@
   }
   .polaroid figcaption{
     font-family:'Caveat',cursive; font-size:1.15rem;
-    color:#4a4038; padding-top:.5rem;
+    color:#ffb3c6;            /* rosita, a juego con los acentos */
+    padding-top:.5rem;
   }
 
   /* ---------- 5: canción ---------- */
