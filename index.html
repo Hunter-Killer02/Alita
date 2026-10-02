@@ -183,6 +183,17 @@
     box-shadow:0 12px 32px rgba(0,0,0,.5);
     animation:girar 5s linear infinite paused;
   }
+  .vinilo{ position:relative; overflow:hidden; }
+  .vinilo img{
+    width:100%; height:100%;
+    object-fit:cover; border-radius:50%;
+  }
+  .vinilo::after{            /* hoyito del centro, para que siga pareciendo disco */
+    content:""; position:absolute;
+    top:50%; left:50%; transform:translate(-50%,-50%);
+    width:14px; height:14px; border-radius:50%;
+    background:#15151c; border:3px solid rgba(255,255,255,.25);
+  }
   .player.sonando .vinilo{ animation-play-state:running; }
   @keyframes girar{ to{ transform:rotate(360deg);} }
   .cancion-titulo{ font-weight:600; font-size:1.05rem; }
@@ -330,7 +341,7 @@
   <div class="etiqueta">Dale play 🎧</div>
   <h2>Nuestra canción</h2>
   <div class="player" id="player">
-    <div class="vinilo"></div>
+    <div class="vinilo"><img src="portada.jpg" alt="Portada de nuestra canción"></div>
     <!-- EDITA-CANCION -->
     <div class="cancion-titulo">Querer Querernos</div>
     <div class="cancion-artista">Canserbero</div>
