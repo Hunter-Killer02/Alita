@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>1 año juntos 💖</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💖</text></svg>">
+<meta property="og:title" content="Feliz aniversario 💖">
+<meta property="og:description" content="Un año de nosotros — hice algo para ti">
+<!-- ============================================================
+     PERSONALIZA (busca "EDITA"):
+     1. EDITA-MOMENTOS  → la línea del tiempo de su historia
+     2. EDITA-CARTA     → tu carta de aniversario
+     3. EDITA-FIRMA     → tu firma
+     La fecha de inicio (21 oct 2025) ya está puesta en INICIO.
+     ============================================================ -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Dancing+Script:wght@600;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --fondo-1:#120a18;
+    --fondo-2:#1f1030;
+    --dorado:#ffd166;
+    --rosa:#ff5e8a;
+    --rosa-2:#ff8fab;
+    --lila:#b388ff;
+    --verde:#7be0a8;
+    --blanco:#f8f4ff;
+    --tenue:rgba(248,244,255,.65);
+    --vidrio:rgba(255,255,255,.07);
+    --vidrio-borde:rgba(255,255,255,.15);
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html,body{ height:100%; }
+  body{
+    font-family:'Poppins',sans-serif;
+    background:
+      radial-gradient(circle at 18% 12%, rgba(255,209,102,.10), transparent 42%),
+      radial-gradient(circle at 82% 88%, rgba(255,94,138,.13), transparent 45%),
+      linear-gradient(180deg, var(--fondo-1), var(--fondo-2));
+    color:var(--blanco);
+    overflow:hidden;
+    -webkit-tap-highlight-color:transparent;
+  }
+
+  /* ---------- fondo flotante ---------- */
+  .fondo-item{
+    position:fixed; z-index:0; pointer-events:none;
+    animation:flotarFondo linear infinite; opacity:0;
+  }
+  @keyframes flotarFondo{
+    0%  { transform:translateY(105vh) scale(var(--esc,1)) rotate(0deg); opacity:0; }
+    10% { opacity:var(--op,.3); }
+    90% { opacity:var(--op,.3); }
+    100%{ transform:translateY(-10vh) scale(var(--esc,1)) rotate(30deg); opacity:0; }
+  }
+
+  /* ---------- confeti ---------- */
+  .confeti{
+    position:fixed; top:-4vh; z-index:9; pointer-events:none;
+    width:9px; height:14px;
+    animation:caerConfeti linear forwards;
+  }
+  @keyframes caerConfeti{
+    0%  { transform:translateY(-4vh) translateX(0) rotate(0); opacity:1; }
+    100%{ transform:translateY(108vh) translateX(var(--deriva,40px)) rotate(640deg); opacity:.4; }
+  }
+
+  /* ---------- slides ---------- */
+  .slide{
+    position:fixed; inset:0; z-index:2;
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    text-align:center; padding:6vh 7vw calc(10vh + env(safe-area-inset-bottom));
+    opacity:0; transform:translateX(6vw);
+    transition:opacity .7s ease, transform .7s ease;
+    pointer-events:none; overflow-y:auto;
+  }
+  .slide.activa{ opacity:1; transform:translateX(0); pointer-events:auto; }
+  .slide.salida{ transform:translateX(-6vw); }
+  /* pantallas con contenido alto: alinear arriba y dejar scroll normal,
+     para que el título nunca quede fuera de vista */
+  .slide.larga{ justify-content:flex-start; padding-top:7vh; }
+  .slide.larga > *{ flex-shrink:0; }
+
+  .etiqueta{
+    font-size:.7rem; letter-spacing:.35em; text-transform:uppercase;
+    color:var(--dorado); font-weight:500; margin-bottom:1rem;
+  }
+  h1{
+    font-family:'Dancing Script',cursive; font-weight:700;
+    font-size:clamp(2.4rem, 9vw, 4rem); line-height:1.15;
+  }
+  h2{
+    font-family:'Dancing Script',cursive; font-weight:600;
+    font-size:clamp(1.9rem, 7vw, 2.8rem); margin-bottom:2.2vh;
+  }
+  .sub{ color:var(--tenue); font-weight:300; font-size:clamp(.95rem,3.4vw,1.08rem); line-height:1.7; max-width:46ch; }
+
+  .btn{
+    margin-top:4vh; border:none; cursor:pointer;
+    font-family:'Poppins',sans-serif; font-weight:500; font-size:1rem;
+    color:#2a1430; padding:.95rem 2.6rem; border-radius:999px;
+    background:linear-gradient(135deg, var(--dorado), var(--rosa-2));
+    box-shadow:0 10px 30px rgba(255,160,120,.35);
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .btn:hover{ transform:translateY(-3px); box-shadow:0 14px 36px rgba(255,160,120,.5); }
+  .btn:focus-visible{ outline:3px solid var(--dorado); outline-offset:4px; }
+
+  /* ---------- 1: intro ---------- */
+  .uno-grande{
+    font-size:clamp(6rem, 30vw, 11rem); font-weight:600;
+    line-height:1;
+    background:linear-gradient(135deg, var(--dorado), var(--rosa), var(--lila));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    filter:drop-shadow(0 0 28px rgba(255,160,120,.35));
+    animation:latirUno 2.4s ease-in-out infinite;
+  }
+  @keyframes latirUno{ 0%,100%{ transform:scale(1);} 50%{ transform:scale(1.05);} }
+
+  /* ---------- 2: contador ---------- */
+  .contador{
+    display:grid; grid-template-columns:repeat(2, minmax(130px, 1fr));
+    gap:.8rem; margin-top:3.5vh; width:min(420px, 90vw);
+  }
+  .unidad{
+    background:var(--vidrio); border:1px solid var(--vidrio-borde);
+    border-radius:16px; padding:1.1rem .5rem;
+    backdrop-filter:blur(8px);
+  }
+  .unidad b{
+    display:block; font-size:clamp(1.4rem, 6vw, 2rem);
+    font-weight:600; color:#fff; font-variant-numeric:tabular-nums;
+  }
+  .unidad span{ font-size:.68rem; letter-spacing:.14em; text-transform:uppercase; color:var(--tenue); }
+  .y-contando{ margin-top:2.5vh; font-size:.95rem; color:var(--tenue); font-weight:300; }
+  .y-contando b{ color:var(--dorado); font-weight:600; font-variant-numeric:tabular-nums; }
+
+  /* ---------- 3: línea del tiempo ---------- */
+  .timeline{
+    margin-top:2.5vh; width:min(440px, 90vw);
+    text-align:left; position:relative;
+    padding-left:1.6rem;
+  }
+  .timeline::before{
+    content:""; position:absolute; left:6px; top:6px; bottom:6px;
+    width:2px;
+    background:linear-gradient(180deg, var(--dorado), var(--rosa), var(--lila));
+    border-radius:2px;
+  }
+  .momento{
+    position:relative; margin-bottom:1.1rem;
+    background:var(--vidrio); border:1px solid var(--vidrio-borde);
+    border-radius:14px; padding:.85rem 1.1rem;
+    backdrop-filter:blur(8px);
+    opacity:0; transform:translateY(14px);
+    transition:opacity .6s ease, transform .6s ease;
+  }
+  .slide.activa .momento{ opacity:1; transform:translateY(0); }
+  .momento::before{
+    content:""; position:absolute; left:-1.6rem; top:1.1rem;
+    width:10px; height:10px; border-radius:50%;
+    background:var(--dorado);
+    box-shadow:0 0 10px rgba(255,209,102,.8);
+    transform:translateX(-4px);
+  }
+  .momento b{ display:block; font-size:.72rem; letter-spacing:.16em; text-transform:uppercase; color:var(--dorado); margin-bottom:.2rem; }
+  .momento p{ font-size:.9rem; font-weight:300; line-height:1.55; color:#f1eaff; }
+
+
+  /* ---------- 4: carta final ---------- */
+  .carta-aniv{
+    margin-top:2vh; width:min(480px, 90vw);
+    background:var(--vidrio); border:1px solid var(--vidrio-borde);
+    border-radius:22px; padding:clamp(1.4rem, 5vw, 2.2rem);
+    backdrop-filter:blur(10px); text-align:left;
+  }
+  .carta-aniv p{
+    font-weight:300; font-size:clamp(.95rem, 3.6vw, 1.05rem);
+    line-height:1.85; color:#f3edff; margin-bottom:.9rem;
+  }
+  .firma-final{
+    font-family:'Dancing Script',cursive;
+    font-size:1.9rem; color:var(--dorado); text-align:right;
+    text-shadow:0 0 16px rgba(255,209,102,.4);
+    margin-top:.5rem;
+  }
+  .brindis{ font-size:3.4rem; margin-bottom:1.5vh;
+    animation:brindar 2.6s ease-in-out infinite; display:inline-block; }
+  @keyframes brindar{ 0%,100%{ transform:rotate(-6deg);} 50%{ transform:rotate(8deg) scale(1.08);} }
+  .btn-replay{
+    margin-top:3vh; background:none; border:1px solid var(--vidrio-borde);
+    color:var(--tenue); font-size:.85rem; padding:.6rem 1.5rem;
+    border-radius:999px; cursor:pointer;
+  }
+
+  /* ---------- navegación ---------- */
+  #puntos{
+    position:fixed; bottom:calc(3.5vh + env(safe-area-inset-bottom)); left:50%;
+    transform:translateX(-50%);
+    display:flex; gap:.55rem; z-index:10;
+  }
+  #puntos i{
+    width:8px; height:8px; border-radius:50%;
+    background:rgba(255,255,255,.22);
+    transition:background .4s ease, transform .4s ease;
+  }
+  #puntos i.aqui{ background:var(--dorado); transform:scale(1.35); }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:.01s !important; transition-duration:.01s !important; }
+    .fondo-item,.confeti{ display:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ 1 · INTRO ============ -->
+<section class="slide activa" id="s1">
+  <div class="etiqueta">21 de octubre · nuestro día</div>
+  <div class="uno-grande">1</div>
+  <h1>año de nosotros</h1>
+  <p class="sub">Hace exactamente un año me dijiste que sí…<br>y ese fue el mejor dia de mi vida.</p>
+  <button class="btn" data-sig>Celebremos 🥂</button>
+</section>
+
+<!-- ============ 2 · CONTADOR ============ -->
+<section class="slide" id="s2">
+  <div class="etiqueta">En números</div>
+  <h2>Un año se dice fácil…</h2>
+  <div class="contador">
+    <div class="unidad"><b id="cDias">0</b><span>días</span></div>
+    <div class="unidad"><b id="cHoras">0</b><span>horas</span></div>
+    <div class="unidad"><b id="cMin">0</b><span>minutos</span></div>
+    <div class="unidad"><b id="cSeg">0</b><span>segundos</span></div>
+  </div>
+  <p class="y-contando">…y el contador sigue corriendo: <b id="cVivo">0</b> y contando 💞</p>
+  <button class="btn" data-sig>Nuestra historia →</button>
+</section>
+
+<!-- ============ 3 · LÍNEA DEL TIEMPO ============ -->
+<section class="slide larga" id="s3">
+  <div class="etiqueta">Capítulo por capítulo</div>
+  <h2>Nuestro primer año</h2>
+  <div class="timeline">
+    <!-- EDITA-MOMENTOS: ajusta fechas y textos a su historia real -->
+    <div class="momento" style="transition-delay:.1s"><b>Octubre 2025</b><p>Me dijiste que sí… y nos convertimos en el mejor secreto. 🤫</p></div>
+    <div class="momento" style="transition-delay:.3s"><b>Esos 3 meses a escondidas</b><p>Mensajes con cuidado, miradas con disimulo y vernos como podíamos. Nadie lo sabía, y aun así fue nuestro mejor comienzo.</p></div>
+    <div class="momento" style="transition-delay:.5s"><b>El día que hablé con tu familia</b><p>Me temblaban las piernas, pero por ti valía toda la pena. Desde ese día, lo nuestro ya fue a la luz del sol.</p></div>
+    <div class="momento" style="transition-delay:.7s"><b>Lo que siguió</b><p>Ya sin escondernos: aprendimos, discutimos, nos contentamos, y nos elegimos una y otra vez.</p></div>
+    <div class="momento" style="transition-delay:.9s"><b>Hoy · Octubre 2026</b><p>Un año. De secreto a historia oficial. Y apenas vamos empezando.</p></div>
+  </div>
+  <button class="btn" data-sig>Tu carta →</button>
+</section>
+
+
+
+<!-- ============ 4 · CARTA FINAL ============ -->
+<section class="slide larga" id="s6">
+  <span class="brindis">🥂</span>
+  <h2>Feliz aniversario, mi amor</h2>
+  <div class="carta-aniv">
+    <!-- EDITA-CARTA: escríbela con tus palabras -->
+    <p>
+      Un año. Empezamos siendo un secreto y hoy somos mi historia
+      favorita para contar. Gracias por confiar en mí cuando lo nuestro
+      era solo de dos, y por seguir eligiéndome cuando ya fue de todos.
+    </p>
+    <p>
+      No necesitamos viajar para saber que contigo llegaría a cualquier parte. 
+      Este segundo año vamos a llenarlo de todo lo que nos falta.
+    </p>
+    <!-- EDITA-FIRMA -->
+    <div class="firma-final">— Te amo, hoy más que ayer</div>
+  </div>
+  <button class="btn-replay" id="btnReplay">Repetirlo ↺</button>
+</section>
+
+<div id="puntos" aria-hidden="true"></div>
+
+<script>
+(function(){
+  'use strict';
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* Fecha de inicio: 21 de octubre de 2025 (mes 9 = octubre) */
+  const INICIO = new Date(2025, 9, 21);
+
+
+  /* ================= fondo flotante ================= */
+  if (!reduce){
+    const simbolos = ['💖','✨','🥂','💛','✦'];
+    for (let i=0;i<18;i++){
+      const f = document.createElement('div');
+      f.className = 'fondo-item';
+      f.textContent = simbolos[i % simbolos.length];
+      f.style.left = Math.random()*96 + 'vw';
+      f.style.fontSize = (0.7 + Math.random()*1.1) + 'rem';
+      f.style.setProperty('--esc', (0.7 + Math.random()*0.7).toFixed(2));
+      f.style.setProperty('--op', (0.12 + Math.random()*0.22).toFixed(2));
+      f.style.animationDuration = (14 + Math.random()*16) + 's';
+      f.style.animationDelay = (-Math.random()*20) + 's';
+      document.body.appendChild(f);
+    }
+  }
+
+  /* ================= confeti ================= */
+  const coloresConfeti = ['#ffd166','#ff5e8a','#b388ff','#ff8fab','#fff'];
+  function lluviaConfeti(cantidad){
+    if (reduce) return;
+    for (let i=0;i<cantidad;i++){
+      setTimeout(() => {
+        const c = document.createElement('div');
+        c.className = 'confeti';
+        c.style.left = Math.random()*100 + 'vw';
+        c.style.background = coloresConfeti[i % coloresConfeti.length];
+        c.style.setProperty('--deriva', (Math.random()*160-80) + 'px');
+        const dur = 2.8 + Math.random()*2.4;
+        c.style.animationDuration = dur + 's';
+        if (Math.random() > .5) c.style.borderRadius = '50%';
+        document.body.appendChild(c);
+        setTimeout(() => c.remove(), dur*1000 + 300);
+      }, i * 60);
+    }
+  }
+  setTimeout(() => lluviaConfeti(40), 600);
+
+  /* ================= navegación de slides ================= */
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const puntos = document.getElementById('puntos');
+  slides.forEach(() => puntos.appendChild(document.createElement('i')));
+  let actual = 0;
+
+  function irA(n){
+    if (n === actual || n < 0 || n >= slides.length) return;
+    const previa = slides[actual];
+    previa.classList.add('salida');
+    previa.classList.remove('activa');
+    setTimeout(() => previa.classList.remove('salida'), 700);
+    actual = n;
+    slides[actual].classList.add('activa');
+    slides[actual].scrollTop = 0;
+    actualizarPuntos();
+    if (slides[actual].id === 's6') lluviaConfeti(60);
+  }
+  function actualizarPuntos(){
+    Array.from(puntos.children).forEach((p,i) => p.classList.toggle('aqui', i === actual));
+  }
+  actualizarPuntos();
+
+  document.querySelectorAll('[data-sig]').forEach(b => {
+    b.addEventListener('click', () => irA(actual + 1));
+  });
+  document.getElementById('btnReplay').addEventListener('click', () => irA(0));
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') irA(actual + 1);
+    if (e.key === 'ArrowLeft')  irA(actual - 1);
+  });
+
+  // deslizar con el dedo (ignorando la línea del tiempo)
+  let x0 = null;
+  document.addEventListener('touchstart', e => {
+    if (e.target.closest('.timeline')) { x0 = null; return; }
+    x0 = e.touches[0].clientX;
+  }, {passive:true});
+  document.addEventListener('touchend', e => {
+    if (x0 === null) return;
+    const dx = e.changedTouches[0].clientX - x0;
+    if (Math.abs(dx) > 60) irA(actual + (dx < 0 ? 1 : -1));
+    x0 = null;
+  }, {passive:true});
+
+  /* ================= contador en vivo ================= */
+  const cDias = document.getElementById('cDias');
+  const cHoras = document.getElementById('cHoras');
+  const cMin = document.getElementById('cMin');
+  const cSeg = document.getElementById('cSeg');
+  const cVivo = document.getElementById('cVivo');
+  function tic(){
+    let ms = Date.now() - INICIO.getTime();
+    if (ms < 0) ms = 0;
+    const s = Math.floor(ms/1000);
+    cDias.textContent  = Math.floor(s/86400).toLocaleString('es-MX');
+    cHoras.textContent = Math.floor(s/3600).toLocaleString('es-MX');
+    cMin.textContent   = Math.floor(s/60).toLocaleString('es-MX');
+    cSeg.textContent   = s.toLocaleString('es-MX');
+    cVivo.textContent  = s.toLocaleString('es-MX') + ' segundos';
+  }
+  tic(); setInterval(tic, 1000);
+
+})();
+</script>
+</body>
+</html>
